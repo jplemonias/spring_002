@@ -1,5 +1,6 @@
 package com.thymeleaf.TestThymeleaf.dao;
 
+import com.thymeleaf.TestThymeleaf.form.UserForm;
 import com.thymeleaf.TestThymeleaf.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -34,8 +35,24 @@ public class UserDaoImpl implements UserDao {
     }
  
     @Override
-    public User save(User user) {
+    public User saveUser(User user) {
         users.add(user);
         return user;
+    }
+ 
+    @Override
+    public User deleteUser(int id) {
+        User isRemoved = users.remove(id);
+        return isRemoved;
+    }
+ 
+    @Override
+    public List<User> editUser(User user, UserForm UserForm) {
+        user.setId(UserForm.getId());
+        user.setName(UserForm.getName());
+        user.setChampionType(UserForm.getChampionType());
+        user.setHp(UserForm.getHp());
+        // users.set( idList, new User(idList, name, type, hp) );
+        return users;
     }
 }

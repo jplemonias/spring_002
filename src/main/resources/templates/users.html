@@ -47,7 +47,12 @@
                     <td th:utext="${user.hp}">...</td>
                 </tr>
             </table>
+
+            <div th:if="${errorMessage}" th:utext="${errorMessage}" style="color:red;font-style:italic;">
+                ...
+            </div>
         </div>
+        <a type="button" class="btn btn-success" th:href="@{/deleteUser/2}">delete User</a>
         <a type="button" class="btn btn-success" th:href="@{/userList}">User List</a>
     </div>
 </body>
