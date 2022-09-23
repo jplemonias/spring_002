@@ -134,6 +134,11 @@ public class MainController {
 		UserForm.setChampionType(user.getChampionType());
 		UserForm.setHp(user.getHp());
 
+		// System.out.println(UserForm.getId());
+		// System.out.println(UserForm.getName());
+		// System.out.println(UserForm.getChampionType());
+		// System.out.println(UserForm.getHp());
+
 		model.addAttribute("userForm", UserForm);
 
 		return "editUser";
@@ -141,7 +146,12 @@ public class MainController {
 
 	@PutMapping(value = { "/editUser/{idUser}" })
 	public String editUser(Model model, @ModelAttribute("UserForm") UserForm UserForm, @PathVariable int idUser) {
-		System.out.println("/editUser/{idUser}");
+
+		System.out.println(UserForm.getId());
+		System.out.println(UserForm.getName());
+		System.out.println(UserForm.getChampionType());
+		System.out.println(UserForm.getHp());
+
 		List users = userDoa.findAll();
 		
 		int id = UserForm.getId();
@@ -157,7 +167,7 @@ public class MainController {
 				for (User user : userDoa.findAll()){
 					if (user.getId() == id){
 						userDoa.editUser(user, UserForm);
-						return "redirect:editUser/"+id;
+						return "redirect:/editUser/"+id;
 					}
 				}
 			}

@@ -30,7 +30,7 @@
          would be @{/edit.html}         
          -->
 
-    <form th:action="@{/addUser}" th:object="${userForm}" method="POST">
+    <form th:action="@{/addUser}" th:object="${userForm}" th:method="POST">
         ID:
         <input type="number" th:field="*{id}" />
         <br />
