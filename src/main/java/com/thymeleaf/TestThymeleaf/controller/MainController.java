@@ -4,24 +4,16 @@ import com.thymeleaf.TestThymeleaf.form.UserForm;
 import com.thymeleaf.TestThymeleaf.model.User;
 import com.thymeleaf.TestThymeleaf.dao.UserDao;
 
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import org.springframework.web.client.RestTemplate;
 
 
@@ -77,12 +69,6 @@ public class MainController {
 
 
 		User user = restTemplate.getForObject(URL_USER+"/"+id, User.class);
-		
-		// User user = userDoa.findAll()
-		// 		.stream()
-		// 		.filter(x -> id == x.getId())
-		// 		.findFirst()
-		// 		.orElse(null);
 
 		if (user == null) {
 			// throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -103,8 +89,6 @@ public class MainController {
 	@PostMapping(value = { "/users/add" })
 	public String saveUser(Model model, @ModelAttribute("UserForm") UserForm UserForm) {
 
-
-
 		int id = UserForm.getId();
 		String name = UserForm.getName();
 		String type = UserForm.getChampionType();
@@ -116,17 +100,7 @@ public class MainController {
 		if (nameIsValid) {
 			if (typeIsValid) {
 				User newUser = new User(id, name, type, hp);
-				System.out.println("--------------------");
-				System.out.println(id);
-				System.out.println(name);
-				System.out.println(type);
-				System.out.println(hp);
-				System.out.println(newUser);
-				System.out.println("--------------------");
-
-
-				System.out.println(restTemplate.postForLocation(URL_USER+"/add", newUser));
-				
+				restTemplate.postForLocation(URL_USER+"/add", newUser);
 				// userDoa.saveUser(new User(id, name, type, hp));
 				return "redirect:/users/"+id;
 			}
@@ -159,18 +133,11 @@ public class MainController {
 
 	@PutMapping(value = { "/users/edit/{idUser}" })
 	public String editUser(Model model, @ModelAttribute("UserForm") UserForm UserForm, @PathVariable int idUser) {
-
-		// System.out.println(UserForm.getId());
-		// System.out.println(UserForm.getName());
-		// System.out.println(UserForm.getChampionType());
-		// System.out.println(UserForm.getHp());
-
-		List<User> users = userDoa.findAll();
 		
 		int id = UserForm.getId();
 		String name = UserForm.getName();
 		String type = UserForm.getChampionType();
-		int hp = UserForm.getHp();
+		// int hp = UserForm.getHp();
 
 		Boolean nameIsValid = name != null && name.length() > 0;
 		Boolean typeIsValid = type != null && type.length() > 0;
@@ -190,9 +157,9 @@ public class MainController {
 		return "redirect:/users";
 	}
 
-	@DeleteMapping(value = { "/users/delete/{id}" })
+	@GetMapping(value = { "/users/delete/{id}" })
 	public String deletUser(Model model, @PathVariable int id) {
-		// List<User> users = userDoa.findAll();
+	
 		User user = userDoa.findAll().stream()
 			.filter(x -> id == x.getId()).findFirst()
 			.orElse(null);
@@ -201,13 +168,13 @@ public class MainController {
 			model.addAttribute("errorMessage", userNotFound);
 			return "redirect:/users";
 		}
+
+		restTemplate.delete(URL_USER + "/delete/" + id, id);
+		return "redirect:/users";
 		// if(users.indexOf(user) != -1) {
 			// userDoa.deleteUser(users.indexOf(user));
-			restTemplate.delete(URL_USER + "/delete/" + id);
 			// model.addAttribute("errorMessage", userNotFound);
 			// model.addAttribute("errorMessage", wtf);
-			return "redirect:/users";
-			// ...
 		// }
 		// return "redirect:/users";
 	}
