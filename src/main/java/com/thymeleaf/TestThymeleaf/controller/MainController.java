@@ -2,7 +2,7 @@ package com.thymeleaf.TestThymeleaf.controller;
 
 import com.thymeleaf.TestThymeleaf.form.UserForm;
 import com.thymeleaf.TestThymeleaf.model.User;
-import com.thymeleaf.TestThymeleaf.dao.UserDao;
+// import com.thymeleaf.TestThymeleaf.dao.UserDao;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,11 +20,11 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class MainController {
 
-	private final UserDao userDoa;
+	// private final UserDao userDoa;
 
-	public MainController(UserDao userDoa) {
-		this.userDoa = userDoa;
-	}
+	// public MainController(UserDao userDoa) {
+	// 	this.userDoa = userDoa;
+	// }
 
 	@Value("${message.welcome}")
 	private String messageWelcom;
@@ -99,10 +99,11 @@ public class MainController {
 
 		if (nameIsValid) {
 			if (typeIsValid) {
-				User newUser = new User(id, name, type, hp);
+				// User newUser = new User(id, name, type, hp);
+				User newUser = new User( name, type, hp);
 				restTemplate.postForLocation(URL_USER+"/add", newUser);
 				// userDoa.saveUser(new User(id, name, type, hp));
-				return "redirect:/users/"+id;
+				return "redirect:/users";//"+id;
 			}
 		}
 
@@ -110,73 +111,73 @@ public class MainController {
 		return "addUser";
 	}
 
-	@GetMapping(value = { "/users/edit/{idUser}" })
-	public String showAddEditPage(Model model, @PathVariable int idUser) {
+	// @GetMapping(value = { "/users/edit/{idUser}" })
+	// public String showAddEditPage(Model model, @PathVariable int idUser) {
 		
-		UserForm UserForm = new UserForm();
-		User user = userDoa.findById(idUser);
+	// 	UserForm UserForm = new UserForm();
+	// 	User user = userDoa.findById(idUser);
 
-		UserForm.setId(user.getId());
-		UserForm.setName(user.getName());
-		UserForm.setChampionType(user.getChampionType());
-		UserForm.setHp(user.getHp());
+	// 	UserForm.setId(user.getId());
+	// 	UserForm.setName(user.getName());
+	// 	UserForm.setChampionType(user.getChampionType());
+	// 	UserForm.setHp(user.getHp());
 
-		// System.out.println(UserForm.getId());
-		// System.out.println(UserForm.getName());
-		// System.out.println(UserForm.getChampionType());
-		// System.out.println(UserForm.getHp());
+	// 	// System.out.println(UserForm.getId());
+	// 	// System.out.println(UserForm.getName());
+	// 	// System.out.println(UserForm.getChampionType());
+	// 	// System.out.println(UserForm.getHp());
 
-		model.addAttribute("userForm", UserForm);
+	// 	model.addAttribute("userForm", UserForm);
 
-		return "editUser";
-	}
+	// 	return "editUser";
+	// }
 
-	@PutMapping(value = { "/users/edit/{idUser}" })
-	public String editUser(Model model, @ModelAttribute("UserForm") UserForm UserForm, @PathVariable int idUser) {
+	// @PutMapping(value = { "/users/edit/{idUser}" })
+	// public String editUser(Model model, @ModelAttribute("UserForm") UserForm UserForm, @PathVariable int idUser) {
 		
-		int id = UserForm.getId();
-		String name = UserForm.getName();
-		String type = UserForm.getChampionType();
-		// int hp = UserForm.getHp();
+	// 	int id = UserForm.getId();
+	// 	String name = UserForm.getName();
+	// 	String type = UserForm.getChampionType();
+	// 	// int hp = UserForm.getHp();
 
-		Boolean nameIsValid = name != null && name.length() > 0;
-		Boolean typeIsValid = type != null && type.length() > 0;
+	// 	Boolean nameIsValid = name != null && name.length() > 0;
+	// 	Boolean typeIsValid = type != null && type.length() > 0;
 
-		if (nameIsValid) {
-			if (typeIsValid) {
-				for (User user : userDoa.findAll()){
-					if (user.getId() == id){
-						userDoa.editUser(user, UserForm);
-						return "redirect:/users/edit/"+id;
-					}
-				}
-			}
-		}
+	// 	if (nameIsValid) {
+	// 		if (typeIsValid) {
+	// 			for (User user : userDoa.findAll()){
+	// 				if (user.getId() == id){
+	// 					userDoa.editUser(user, UserForm);
+	// 					return "redirect:/users/edit/"+id;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
 
-		model.addAttribute("errorMessage", errorMessage);
-		return "redirect:/users";
-	}
+	// 	model.addAttribute("errorMessage", errorMessage);
+	// 	return "redirect:/users";
+	// }
 
-	@GetMapping(value = { "/users/delete/{id}" })
-	public String deletUser(Model model, @PathVariable int id) {
+	// @GetMapping(value = { "/users/delete/{id}" })
+	// public String deletUser(Model model, @PathVariable int id) {
 	
-		User user = userDoa.findAll().stream()
-			.filter(x -> id == x.getId()).findFirst()
-			.orElse(null);
+	// 	User user = userDoa.findAll().stream()
+	// 		.filter(x -> id == x.getId()).findFirst()
+	// 		.orElse(null);
 
-		if (user == null) {
-			model.addAttribute("errorMessage", userNotFound);
-			return "redirect:/users";
-		}
+	// 	if (user == null) {
+	// 		model.addAttribute("errorMessage", userNotFound);
+	// 		return "redirect:/users";
+	// 	}
 
-		restTemplate.delete(URL_USER + "/delete/" + id, id);
-		return "redirect:/users";
-		// if(users.indexOf(user) != -1) {
-			// userDoa.deleteUser(users.indexOf(user));
-			// model.addAttribute("errorMessage", userNotFound);
-			// model.addAttribute("errorMessage", wtf);
-		// }
-		// return "redirect:/users";
-	}
+	// 	restTemplate.delete(URL_USER + "/delete/" + id, id);
+	// 	return "redirect:/users";
+	// 	// if(users.indexOf(user) != -1) {
+	// 		// userDoa.deleteUser(users.indexOf(user));
+	// 		// model.addAttribute("errorMessage", userNotFound);
+	// 		// model.addAttribute("errorMessage", wtf);
+	// 	// }
+	// 	// return "redirect:/users";
+	// }
 
 }

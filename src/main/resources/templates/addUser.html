@@ -31,14 +31,14 @@
          -->
 
     <form th:action="@{/users/add}" th:object="${userForm}" th:method="POST">
-        ID:
+        <!-- ID:
         <input type="number" th:field="*{id}" />
-        <br />
+        <br /> -->
         Name:
         <input type="text" th:field="*{name}" />
         <br />
         Type:
-        <input type="text" th:field="*{championType}" />
+        <input type="text" th:field="*{champion}" />
         <br />
         HP:
         <input type="number" th:field="*{hp}" />

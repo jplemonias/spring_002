@@ -1,14 +1,9 @@
 package com.thymeleaf.TestThymeleaf.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class User {
-  @Id
-    private int id;
+    // private int id;
     private String name;
-    private String championType;
+    private String champion;
     private int hp;
     
 
@@ -17,24 +12,25 @@ public class User {
     }
     
     public User(String name){
-        this(5, name, "Wawa", 10);
+      // this(5, name, "Wawa", 10);
+      this(name, "Wawa", 10);
     }
 
-    public User(int id, String name, String championType, int hp){
-        this.id = id;
+    public User(String name, String champion, int hp){
+        // this.id = id;
         this.name = name;
-        this.championType = championType;
+        this.champion = champion;
         this.hp = hp;
     }
   
-    public int getId()
-    {
-      return id;
-    }
-    public void setId(int id)
-    {
-      this.id = id;
-    }
+    // public int getId()
+    // {
+    //   return id;
+    // }
+    // public void setId(int id)
+    // {
+    //   this.id = id;
+    // }
   
     public String getName()
     {
@@ -45,13 +41,13 @@ public class User {
       this.name = name;
     }
   
-    public String getChampionType()
+    public String getChampion()
     {
-      return championType;
+      return champion;
     }
-    public void setChampionType(String championType)
+    public void setChampion(String champion)
     {
-      this.championType = championType;
+      this.champion = champion;
     }
   
     public int getHp()
@@ -68,6 +64,6 @@ public class User {
     public String toString() {
         return "Le/La champion.ne s'appel " + name +
           ", avec " + hp + "points de vie " +
-          "et est un.e "+ championType;
+          "et est un.e "+ champion;
     }
 }
